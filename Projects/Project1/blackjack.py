@@ -44,8 +44,7 @@ def print_card_and_hand():
 flag = True  # I used a flag variable to run the program because choice 4, which ends the game, is in a nested loop
 
 while flag:  # this loop runs each new game
-    games_played += 1
-    print(f'START GAME #{games_played}')
+    print(f'START GAME #{games_played + 1}')
 
     total_hand = 0
     dealer_hand = 0  # gotta reset hands after each game
@@ -56,9 +55,11 @@ while flag:  # this loop runs each new game
 
         if total_hand == 21:
             print('BLACKJACK! You win!')
+            player_wins += 1
             break
         elif total_hand > 21:
             print('You exceeded 21! You lose.')
+            dealer_wins += 1
             break
 
         print_menu()  # prints menu
@@ -66,6 +67,7 @@ while flag:  # this loop runs each new game
         choice = int(input('Choose an option: '))
         if choice == 1:
             print_card_and_hand()
+            continue
         elif choice == 2:  # determines value of dealer's hand, then who wins
             dealer_hand = rng.next_int(11) + 16
             print(f"Dealer's hand: {dealer_hand}")
@@ -73,19 +75,15 @@ while flag:  # this loop runs each new game
             if dealer_hand > 21:
                 print('You win!')
                 player_wins += 1
-                break
             elif total_hand == dealer_hand:
                 print("It's a tie! No one wins!")
                 ties += 1
-                break
             elif total_hand > dealer_hand:
                 print('You win!')
                 player_wins += 1
-                break
             elif total_hand < dealer_hand:
                 print('Dealer wins!')
                 dealer_wins += 1
-                break
         elif choice == 3:  # prints statistics
             print(f'Number of Player wins: {player_wins}')
             print(f'Number of Dealer wins: {dealer_wins}')
@@ -93,9 +91,15 @@ while flag:  # this loop runs each new game
             print(f'Total # of games played is: {games_played}')
             percentage = "{:.1f}".format((player_wins / games_played) * 100)
             print(f'Percentage of Player wins: {percentage}%')
+            continue
         elif choice == 4:
             flag = False
-            break  # this is why I used a flag variable, because this break only ends the current game, not the whole
-                   # program
+            # program
+
         else:
             print('Invalid input!\nPlease enter an integer value between 1 and 4.')
+            continue
+
+        break
+
+    games_played += 1
