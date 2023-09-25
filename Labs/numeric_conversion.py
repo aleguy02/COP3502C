@@ -6,6 +6,7 @@ hex_value = {
 
 def hex_char_decode(digit):
     """decodes single digit hex value into its decimal value"""
+    digit = digit.upper()
     return hex_value[digit]
 
 
@@ -48,6 +49,35 @@ def binary_string_decode(binary, n=0, total=0):
     return total
 
 
-_input = input()
-decoded_total = hex_string_decode(_input)
-print(decoded_total)
+def binary_to_hex(binary):
+    return 'binary to hex not yet done'
+
+
+def print_menu():
+    print('Decoding Menu\n'
+          '-------------\n'
+          '1. Decode hexadecimal\n'
+          '2. Decode binary\n'
+          '3. Convert binary to hexadecimal\n'
+          '4. Quit')
+
+
+if __name__ == '__main__':
+    while True:
+        print_menu()
+        choice = int(input('Please enter an option: '))
+        if choice == 4:
+            print('Goodbye!')
+            break
+        numeric_string = input('Please enter the numeric string to convert: ')
+
+        if choice == 1 and len(numeric_string) == 1:
+            result = hex_char_decode(numeric_string)
+        elif choice == 1:
+            result = hex_string_decode(numeric_string)
+        elif choice == 2:
+            result = binary_string_decode(numeric_string)
+        elif choice == 3:
+            result = binary_to_hex(numeric_string)
+
+        print('Result: ', result)
