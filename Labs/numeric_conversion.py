@@ -4,6 +4,12 @@ hex_value = {
 }
 
 
+dec_to_hex = {
+    0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9',
+    10: 'A', 11: 'B', 12: 'C', 13: 'D', 14: 'E', 15: 'F'
+}
+
+
 def hex_char_decode(digit):
     """decodes single digit hex value into its decimal value"""
     digit = digit.upper()
@@ -49,8 +55,24 @@ def binary_string_decode(binary, n=0, total=0):
     return total
 
 
-def binary_to_hex(binary):
-    return 'binary to hex not yet done'
+def binary_to_hex(binary, total=0):
+    digit_list = []
+    dec = binary_string_decode(binary)
+    next_val = dec
+    while True:
+        if next_val == 0:
+            break  # this line and all the previous are original code/ideas
+
+        remainder = next_val % 16  # All I learned with the internet was that I needed these variables and how to create them
+        next_val = next_val // 16  # All I learned with the internet was that I needed these variables and how to create them
+
+        remainder = dec_to_hex[remainder]  # this line and all the following are original code/ideas
+        digit_list.append(remainder)
+    digit_list.reverse()
+    hex_code = ''
+    for digit in digit_list:
+        hex_code += digit
+    return hex_code
 
 
 def print_menu():
