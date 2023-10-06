@@ -15,9 +15,15 @@ def print_board(board: list):
 
 
 def insert_chip(board: list, col, chip_type):
-    pass
 
 
-height = int(input('What would you like the height of the board to be? '))
-length = int(input('What would you like the length of the board to be? '))
-print_board((initialize_board(height, length)))
+# start of the game here
+height = 4
+length = 4
+
+current_board = initialize_board(height, length)
+print_board(current_board)
+
+turn_col = 2
+current_board = insert_chip(current_board, turn_col, 'x')
+print_board(current_board)
