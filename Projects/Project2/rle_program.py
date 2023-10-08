@@ -1,43 +1,12 @@
 from console_gfx import *
 
-
-def print_menu():  # prints menu
-    print('RLE Menu\n'
-          '--------\n'
-          '0. \nExit\n'
-          '1. Load File\n'
-          '2. Load Test Image\n'
-          '3. Read RLE String\n'
-          '4. Read RLE Hex String\n'
-          '5. Read Data Hex String\n'
-          '6. Display Image\n'
-          '7. Display RLE String\n'
-          '8. Display Hex RLE Data\n'
-          '9. Display Hex Flat Data\n')
-
-
-def execute_user_input():  # this function prompts the user for an input. The function loop will continue to execute until the input is 0
-    prompt = 'Select a menu option: '
-    user_input = int(input(prompt))
-    while user_input != 0:
-        if user_input == 1:
-            filename = input('Enter name of file to load: ')
-            image = ConsoleGfx.load_file(filename)
-        elif user_input == 2:
-            image = ConsoleGfx.test_image
-            print('Test image data loaded: ')
-        elif user_input == 6:  # Display image
-            ConsoleGfx.display_image(image)
-
-        print()
-        print_menu()
-        user_input = int(input(prompt))
-
-
+# 1
 dec_to_hex = {
     0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9',
     10: 'a', 11: 'b', 12: 'c', 13: 'd', 14: 'e', 15: 'f'
 }
+
+
 def to_hex_string(data: list, hex_string=''):
     for i in data:
         i = dec_to_hex[i]
@@ -45,6 +14,7 @@ def to_hex_string(data: list, hex_string=''):
     return hex_string
 
 
+# 2
 def count_runs(flat_data: list):
     '''loop through flat_data until the index value changes (this signifies the end of a run)
     runs can be 15 pixels long MAX'''
@@ -66,6 +36,7 @@ def count_runs(flat_data: list):
     return num_runs
 
 
+# 3
 def encode_rle(flat_data: list):
     '''count the length of the run, then put the length, value of the run into the next 2 spots of a list. Do this for an entire
     set of data'''
@@ -77,7 +48,7 @@ def encode_rle(flat_data: list):
             encoded_data.extend([run_length, prev_val])
             run_length = 0
         # if data values change (curval != prevval), insert the length of the current run and prevval into encoded data list in that order
-        if prev_val != val:
+        if prev_val != val and run_length != 0:
             encoded_data.extend([run_length, prev_val])
             run_length = 0
         prev_val = val
@@ -86,11 +57,35 @@ def encode_rle(flat_data: list):
     return encoded_data
 
 
-print('Welcome to the RLE image encoder!')  # Welcome message
+# 4
+def get_decoded_length(rle_data):
+    total_length = 0
+    # add the length value of each run to length
+    for length in rle_data[::2]:
+        total_length += length
+    return total_length
 
-print('Displaying Spectrum Image: ')
-rainbow = ConsoleGfx.test_rainbow  # display the rainbow
-ConsoleGfx.display_image(rainbow)
 
-print_menu()
-execute_user_input()
+# 5
+def decode_rle(rle_data):
+    decoded_rle = []
+    index = 0
+    for val in (rle_data[1::2]):
+        # rle_data[index] = run length for current value
+        for i in range(rle_data[index]):
+            decoded_rle.append(val)
+
+        index = index + 2
+    return decoded_rle
+
+
+# 6
+hex_to_dec = {value: key for key, value in dec_to_hex.items()}  # inverted dictionary woaAHHHHHH
+
+
+def string_to_data(data_string):
+    formatted_list = []
+    for letter in data_string:
+        letter = hex_to_dec[letter]
+        formatted_list.append(letter)
+    return formatted_list
