@@ -33,5 +33,21 @@ def count_runs(flat_data: list):
     return num_runs
 
 
-data = [15, 15, 15, 4, 4, 4, 4, 4, 4]
-print(count_runs(data))
+def encode_rle(flat_data: list):
+    '''count the length of the run, then put the length, value of the run into the next 2 spots of a list. Do this for an entire
+    set of data'''
+    encoded_data = []
+    prev_val = flat_data[0]
+    run_length = 0
+    for i, val in enumerate(flat_data):
+        if run_length == 15:
+            encoded_data.extend([run_length, prev_val])
+            run_length = 0
+        # if data values change (curval != prevval), insert the length of the current run and prevval into encoded data list in that order
+        if prev_val != val:
+            encoded_data.extend([run_length, prev_val])
+            run_length = 0
+        prev_val = val
+        run_length += 1
+    encoded_data.extend([run_length, prev_val])
+    return encoded_data
