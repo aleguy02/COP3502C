@@ -17,32 +17,31 @@ def print_board(board: list):
 
 
 def insert_chip(board: list, col, chip_type):
+    x = 0
     for row in board:
         if row[col] == '-':  # insert chip_type into board[rowvalue][col]
             row.pop(col)
             row.insert(col, chip_type)
             break
+        x += 1
 
-    return board
+    return x
 
-    # replace column value with chip_type if the column value is open (-) in the first row
-    # if the column value is not open in the first row, check the next row
-    # store the row number
+
+def check_if_winner(board: list, col: int, row: int, chip_type: str):
+    consecutive_chips = 0
+    for value in board[row]:  # check if there are 4 chip types in a row in variable row
+        consecutive_chips = (consecutive_chips + 1) if value == chip_type else 0
+        if consecutive_chips == 4:  # the function ends and returns True if it finds 4 in a row
+            return True
+
+    consecutive_chips = 0
+    for Row in board:  # check if there are 4 rows in a row with chip type in the column number
+        consecutive_chips = (consecutive_chips + 1) if Row[col] == chip_type else 0
+        if consecutive_chips == 4:  # the function ends and returns True if it finds 4 in a row
+            return True
+
+    return False
 
 
 # start of the game here
-height = 4
-length = 4
-
-current_board = initialize_board(height, length)
-print_board(current_board)
-print()
-
-turn_col = 2
-current_board = insert_chip(current_board, turn_col, 'x')
-print_board(current_board)
-print()
-
-turn_col = 2
-current_board = insert_chip(current_board, turn_col, 'x')
-print_board(current_board)
