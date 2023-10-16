@@ -16,19 +16,21 @@ def print_board(board: list):
     board.reverse()
 
 
-def insert_chip(board: list, col, chip_type):
-    x = 0
+def insert_chip(board: list, col: int, chip_type):
+    board_row = 0
     for row in board:
         if row[col] == '-':  # insert chip_type into board[rowvalue][col]
             row.pop(col)
             row.insert(col, chip_type)
             break
-        x += 1
+        board_row += 1
 
-    return x
+    return board_row
 
 
 def check_if_winner(board: list, col: int, row: int, chip_type: str):
+    """returns True on win or tie, False on no win"""
+    global tie
     consecutive_chips = 0
     for value in board[row]:  # check if there are 4 chip types in a row in variable row
         consecutive_chips = (consecutive_chips + 1) if value == chip_type else 0
@@ -41,7 +43,47 @@ def check_if_winner(board: list, col: int, row: int, chip_type: str):
         if consecutive_chips == 4:  # the function ends and returns True if it finds 4 in a row
             return True
 
+    # I need to check every row. If '-' does not exist in any row, return a tie game
+    for Row in board:
+        if '-' not in Row:
+            tie = True
+        else:
+            tie = False
+    if tie:
+        return True
+
     return False
 
 
-# start of the game here
+if __name__ == '__main__':
+    height = int(input('What would you like the height of the board to be? '))
+    length = int(input('What would you like the length of the board to be? '))
+
+    current_board = initialize_board(height, length)  # makes board the size the user wants
+    print_board(current_board)
+
+    print('Player 1: x\nPlayer 2: o')
+
+    # game starts here
+    x = 1
+    while True:
+        if x % 2 == 0:  # need to alternate between player
+            player_num = 2
+            player_chip = 'o'
+        else:
+            player_num = 1
+            player_chip = 'x'
+        x += 1
+
+        turn_col = int(input(f'Player {player_num}: Which column would you like to choose? '))
+        turn_row = insert_chip(current_board, turn_col, player_chip)
+        print_board(current_board)
+
+        tie = False
+
+        if check_if_winner(current_board, turn_col, turn_row, player_chip):
+            if tie:
+                print('Draw. Nobody wins.')
+            else:
+                print(f'Player {player_num} won the game!')
+            break
