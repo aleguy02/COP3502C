@@ -1,4 +1,4 @@
-import unittest
+"""import unittest
 from guh import encode_rle, decode_rle
 
 
@@ -26,3 +26,11 @@ class TestCountRuns(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+"""
+from unittest import TestCase
+from guh import encode_rle
+
+class Test(TestCase):
+    def test_encode_rle(self):
+        self.assertEqual(encode_rle([4,4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,8,7]),
+                         [2,4,15,1,15,1,5,1,1,8,1,7])

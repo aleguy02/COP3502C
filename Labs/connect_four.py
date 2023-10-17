@@ -43,6 +43,29 @@ def check_if_winner(board: list, col: int, row: int, chip_type: str):
         if consecutive_chips == 4:  # the function ends and returns True if it finds 4 in a row
             return True
 
+    # add diagonal check here
+    consecutive_chips = 0
+    for i in range(-3, 4):  # checks up and to the right starting from 3 positions down and to the left of the turn position
+        if 0 <= row + i < len(board) and 0 <= col + i < len(board[row]):  # these criteria ensure that we stay in the bounds of the board size
+            if board[row + i][col + i] == chip_type:
+                consecutive_chips += 1
+            else:
+                consecutive_chips = 0
+        if consecutive_chips == 4:
+            return True
+
+    consecutive_chips = 0
+    for i in range (-3, 4):  # checks up and to the left starting from 3 positions down and to the right of the turn position
+        if 0 <= row + i < len(board) and 0 <= col - i < len(board[row]):
+            if board[row + i][col - i] == chip_type:
+                consecutive_chips += 1
+            else:
+                consecutive_chips = 0
+        if consecutive_chips == 4:
+            return True
+
+
+
     # I need to check every row. If '-' does not exist in any row, return a tie game
     for Row in board:
         if '-' not in Row:
@@ -80,7 +103,6 @@ if __name__ == '__main__':
         print_board(current_board)
 
         tie = False
-
         if check_if_winner(current_board, turn_col, turn_row, player_chip):
             if tie:
                 print('Draw. Nobody wins.')
