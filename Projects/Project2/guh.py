@@ -89,3 +89,22 @@ def string_to_data(data_string):
         letter = hex_to_dec[letter]
         formatted_list.append(letter)
     return formatted_list
+
+
+# 7
+def to_rle_string(rle_data: list):
+    string_rle = ''
+    index = 0
+    for val in (rle_data[1::2]):
+        # rle_data[index] = run length for current value
+        string_rle += str(rle_data[index]) + dec_to_hex[val] + ':'
+        index += 2
+    return string_rle[:-1]
+
+# 8
+def string_to_rle(rle_string: str):
+    rle_data = []
+    rle_string_list = rle_string.split(':')
+    for val in rle_string_list:
+        rle_data.extend([int(val[:-1]), hex_to_dec[val[-1]]])
+    return rle_data
