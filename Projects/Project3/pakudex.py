@@ -21,27 +21,26 @@ class Pakudex:
 
     def get_stats(self, species_obj):
         if species_obj not in self.species_array:
-            print('Error: No such Pakuri!')
             return None
         else:
             return [species_obj.attack, species_obj.defense, species_obj.speed]
 
     def sort_pakuri(self):  # least should be to the left, most should be to the right
-        species_name_list = self.get_species_array()
-        species_name_list.sort()  # 2. order the speciesname list
+        if len(self.species_array) > 0:
+            species_name_list = self.get_species_array()
+            species_name_list.sort()  # 2. order the speciesname list
 
-        sorted_species_array = []
-        # 3. reposition the object of species name to in species array to match the position of its name in the name list
-        for species_name in species_name_list:
-            for species_obj in self.species_array:
-                if species_obj.species == species_name:
-                    sorted_species_array.append(species_obj)
-        self.species_array = sorted_species_array
+            sorted_species_array = []
+            # 3. reposition the object of species name to in species array to match the position of its name in the name list
+            for species_name in species_name_list:
+                for species_obj in self.species_array:
+                    if species_obj.species == species_name:
+                        sorted_species_array.append(species_obj)
+            self.species_array = sorted_species_array
 
     def add_pakuri(self, species_obj: object):
         named_list = [] if self.get_species_array() is None else self.get_species_array()
         if self.size >= self.capacity:  # Don't add if the pakudex is full
-            print('Error: Pakudex is full!')
             return False
         elif species_obj.species in named_list:  # Don't add if the pakudex already has this pokemon
             print('Error: Pakudex already contains this species!')
