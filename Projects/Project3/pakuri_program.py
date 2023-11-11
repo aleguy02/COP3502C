@@ -19,7 +19,7 @@ def set_capacity():
 
 def print_menu():
     print(
-        'Pakudex Main Menu\n'
+        '\nPakudex Main Menu\n'
         '-----------------\n'
         '1. List Pakuri\n'
         '2. Show Pakuri\n'
@@ -29,7 +29,13 @@ def print_menu():
         '6. Exit'
     )
 
-welcome()
-capacity = set_capacity()
-print_menu()
-print(capacity)
+# 3
+def main_add_pakuri():
+    species_name = input('Enter the name of the species to add: ')
+    pakuri = Pakuri(species_name)
+    pakudex.add_pakuri(pakuri)
+
+
+
+capacity = 5
+pakudex = Pakudex(capacity)
